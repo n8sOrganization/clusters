@@ -2,9 +2,8 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - release-*
+    tags:
+      - '*'
   workflow_dispatch: {}
 
 jobs:
@@ -36,7 +35,7 @@ jobs:
         run: |
           sed -i -e "s|package: registry.upbound.io/nate-organization/cp-pkg-platform-ref-azure:.*|package: registry.upbound.io/nate-organization/cp-pkg-platform-ref-azure:${{ steps.tagger.outputs.VERSION_TAG }}|g" ./configuration/configuration.yaml
       - name: Commit changes
-        uses: EndBug/add-and-commit@v9.01
+        uses: EndBug/add-and-commit@v9.0.1
         with:
           add: '.'
           push: origin main --force
