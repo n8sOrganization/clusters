@@ -1,0 +1,10 @@
+gcloud container clusters get-credentials crossplane-cluster-nate-wmqtw-vkctl --region=us-west2 --project=crossplane-playground
+
+gcloud alpha container hub config-management status --project=crossplane-playground
+
+[pause gcs]
+kubectl scale -n config-management-system deployment --replicas=0 --all \
+&& kubectl wait -n config-management-system --for=delete pods --all
+
+[resume gcs]
+kubectl -n config-management-system scale deployment config-management-operator --replicas=1

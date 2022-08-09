@@ -1,0 +1,47 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xclusters.platformref.upbound.io
+spec:
+  compositeTypeRef:
+    apiVersion: platformref.upbound.io/v1alpha1
+    kind: XCluster
+  resources:
+    - base:
+        apiVersion: platformref.upbound.io/v1alpha1
+        kind: XNetwork
+      patches:
+        - fromFieldPath: spec.id
+          toFieldPath: spec.id
+        - fromFieldPath: spec.region
+          toFieldPath: spec.region
+        - fromFieldPath: spec.cloud
+          toFieldPath: spec.compositionSelector.matchLabels.cloud
+    - base:
+        apiVersion: platformref.upbound.io/v1alpha1
+        kind: XK8s
+      connectionDetails:
+        - fromConnectionSecretKey: kubeconfig
+      patches:
+        - fromFieldPath: spec.id
+          toFieldPath: spec.id
+        - fromFieldPath: spec.id
+          toFieldPath: spec.writeConnectionSecretToRef.name
+        - fromFieldPath: spec.claimRef.namespace
+          toFieldPath: spec.writeConnectionSecretToRef.namespace
+        - fromFieldPath: spec.cloud
+          toFieldPath: spec.compositionSelector.matchLabels.cloud
+        - fromFieldPath: spec.parameters.nodes.count
+          toFieldPath: spec.parameters.nodes.count
+        - fromFieldPath: spec.parameters.nodes.size
+          toFieldPath: spec.parameters.nodes.size
+        - fromFieldPath: spec.region
+          toFieldPath: spec.region
+    # - base:
+    #     apiVersion: charts.azure.platformref.upbound.io/v1alpha1
+    #     kind: XPrometheus
+    #   patches:
+    #     - fromFieldPath: spec.id
+    #       toFieldPath: spec.providerConfigRef.name
+    #     - fromFieldPath: spec.parameters.services.operators.prometheus.version
+    #       toFieldPath: spec.operators.prometheus.version

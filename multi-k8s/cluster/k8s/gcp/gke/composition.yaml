@@ -1,0 +1,97 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: gcp.xk8s.platformref.upbound.io
+  labels:
+    cloud: gcp
+spec:
+  compositeTypeRef:
+    apiVersion: platformref.upbound.io/v1alpha1
+    kind: XK8s
+  resources:
+    - base:
+        apiVersion: container.gcp.upbound.io/v1beta1
+        kind: Cluster
+        spec:
+          forProvider:
+            removeDefaultNodePool: true
+            minMasterVersion: "1.22.10-gke.600" #versions: "1.22.10-gke.600" "1.23.5-gke.1503" "1.23.7-gke.1400"
+            releaseChannel:
+              - channel: UNSPECIFIED
+            location: us-west2
+            ipAllocationPolicy:
+              - useIpAliases: true
+                clusterSecondaryRangeName: pods
+                servicesSecondaryRangeName: services
+            networkConfig:
+              enableIntraNodeVisibility: true
+            loggingService: logging.googleapis.com/kubernetes
+            monitoringService: monitoring.googleapis.com/kubernetes
+      patches:
+        - fromFieldPath: metadata.uid
+          toFieldPath: spec.writeConnectionSecretToRef.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-gkecluster"
+        - fromFieldPath: spec.region
+          toFieldPath: spec.forProvider.location  
+        - fromFieldPath: spec.parameters.nodes.count
+          toFieldPath: spec.forProvider.initialNodeCount
+        - fromFieldPath: "spec.id"
+          toFieldPath: spec.forProvider.networkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
+        - fromFieldPath: "spec.id"
+          toFieldPath: spec.forProvider.subnetworkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
+        - fromFieldPath: spec.writeConnectionSecretToRef.namespace
+          toFieldPath: spec.writeConnectionSecretToRef.namespace
+        - fromFieldPath: spec.writeConnectionSecretToRef.name
+          toFieldPath: spec.writeConnectionSecretToRef.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-gkecluster"
+    - base:
+        apiVersion: container.gcp.upbound.io/v1beta1
+        kind: NodePool
+        spec:
+          forProvider:
+            location: us-west2
+            version: "1.22.10-gke.600" #versions: "1.22.10-gke.600" "1.23.5-gke.1503" "1.23.7-gke.1400"
+            initialNodeCount: 1
+            clusterSelector:
+              matchControllerRef: true
+            nodeConfig:
+            - diskType: pd-standard
+              diskSizeGb: 100
+              imageType: COS
+              shieldedInstanceConfig:
+                - enableIntegrityMonitoring: true
+                  enableSecureBoot: true
+              oauthScopes:
+                - https://www.googleapis.com/auth/cloud-platform
+            management:
+            - autoRepair: true
+              autoUpgrade: false
+          maxPodsPerNode: 55
+          deletionPolicy: Delete
+          upgradeSettings:
+            - max_surge: 2
+              max_unavailable: 1
+      patches:
+        - fromFieldPath: spec.parameters.nodes.size
+          toFieldPath: spec.forProvider.nodeConfig[0].machineType
+          transforms:
+            - type: map
+              map:
+                small: n1-standard-4
+                medium: n1-standard-16
+                large: n1-standard-32
+        - fromFieldPath: spec.region
+          toFieldPath: spec.forProvider.location
+        - fromFieldPath: spec.parameters.nodes.count
+          toFieldPath: spec.forProvider.initialNodeCount
+        - fromFieldPath: spec.parameters.nodes.count
+          toFieldPath: spec.forProvider.autoscaling[0].minNodeCount
+        - fromFieldPath: spec.parameters.nodes.count
+          toFieldPath: spec.forProvider.autoscaling[0].maxNodeCount
+

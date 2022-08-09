@@ -1,0 +1,13 @@
+apiVersion: platformref.upbound.io/v1alpha1
+kind: Cluster
+metadata:
+  name: managed-cluster-2
+spec:
+  id: managed-cluster-2
+  cloud: azure
+  parameters:
+    nodes:
+      version: "1.21.9"
+      #version: "1.22.6"
+      count: 1
+      size: small

@@ -1,0 +1,11 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  name: nate-organiztion-multi-k8s
+spec:
+  crossplane:
+    version: ">=v1.0.0-0"
+  #dependsOn:
+   # - provider: registry.upbound.io/crossplane/provider-helm
+   #   version: ">=v0.9.0"
+

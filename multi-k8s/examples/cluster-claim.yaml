@@ -1,0 +1,16 @@
+apiVersion: platformref.upbound.io/v1alpha1
+kind: Cluster
+metadata:
+  name: crossplane-cluster-nate
+spec:
+  id: crossplane-cluster-nate
+  cloud: gcp
+  parameters:
+    nodes:
+      #version: "1.21.9" #aks
+      #version: "1.22.6" #aks
+      #version: "1.23.7-gke.1400" #gke
+      version: "1.23.5-gke.1503" #gke
+      #version: "1.22.10-gke.600" #gke
+      count: 1
+      size: small

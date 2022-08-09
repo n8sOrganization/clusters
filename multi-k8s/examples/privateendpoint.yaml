@@ -1,0 +1,16 @@
+apiVersion: network.azure.upbound.io/v1beta1
+kind: PrivateEndpoint
+metadata:
+  name: example
+spec:
+  forProvider:
+    location: East US 2
+    privateServiceConnection:
+      - isManualConnection: false
+        name: example-privateserviceconnection
+        privateConnectionResourceIdRef:
+          name: example
+    resourceGroupNameRef:
+      name: platform-ref-azure-rg
+    subnetIdRef:
+      name: platform-ref-azure-sn

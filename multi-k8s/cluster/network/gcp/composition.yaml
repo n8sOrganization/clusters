@@ -1,0 +1,43 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: gcp.xnetworks.azure.platformref.upbound.io
+  labels:
+    cloud: gcp
+spec:
+  compositeTypeRef:
+    apiVersion: platformref.upbound.io/v1alpha1
+    kind: XNetwork
+  resources:
+    - base:
+        apiVersion: compute.gcp.upbound.io/v1beta1
+        kind: Network
+        spec:
+          forProvider:
+            autoCreateSubnetworks: false
+            routingMode: REGIONAL
+          deletionPolicy: Delete
+      patches:
+        - fromFieldPath: spec.id
+          toFieldPath: metadata.labels[networks.gcp.platformref.upbound.io/network-id]
+    - base:
+        apiVersion: compute.gcp.upbound.io/v1beta1
+        kind: Subnetwork
+        spec:
+          forProvider:
+            region: us-west2
+            networkSelector:
+              matchControllerRef: true
+            privateIpGoogleAccess: true
+            ipCidrRange: 172.16.0.0/16
+            secondaryIpRange:
+              - rangeName: pods
+                ipCidrRange: 10.200.0.0/14
+              - rangeName: services
+                ipCidrRange: 10.204.0.0/16
+          deletionPolicy: Delete
+      patches:
+        - fromFieldPath: spec.id
+          toFieldPath: metadata.labels[networks.gcp.platformref.upbound.io/network-id]
+        - fromFieldPath: spec.region
+          toFieldPath: spec.forProvider.region
