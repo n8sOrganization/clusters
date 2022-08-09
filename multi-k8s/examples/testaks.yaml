@@ -1,0 +1,23 @@
+apiVersion: containerservice.azure.upbound.io/v1beta1
+kind: KubernetesCluster
+metadata:
+  name: nate-test-example-aks
+spec:
+  forProvider:
+    defaultNodePool:
+      - name: default
+        nodeCount: 1
+        vmSize: Standard_D2_v2
+    dnsPrefix: exampleaks
+    identity:
+      - type: SystemAssigned
+    location: East US
+    resourceGroupNameRef:
+      name: example
+    tags:
+      purpose: example
+  providerConfigRef:
+    name: example
+  writeConnectionSecretToRef:
+    name: example-kubeconfig
+    namespace: crossplane-system

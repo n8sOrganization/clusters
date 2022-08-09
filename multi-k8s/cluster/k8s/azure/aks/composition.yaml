@@ -15,12 +15,15 @@ spec:
         spec:
           forProvider:
             privateClusterPublicFqdnEnabled: true
-            location: "East US 2"
-            kubernetesVersion: "1.21.9" #versions: "1.21.9" "1.22.6"
+            location: "eastus2" #patched
+            kubernetesVersion: "1.21.9" #version: "1.21.9" | "1.22.6"
             defaultNodePool:
               - name: default
                 nodeCount: 1 #patched
+                maxCount: 1 #patched
+                minCount: 1 #patched
                 vmSize: Standard_B2s #patched
+                enableAutoScaling: false
             identity:
               - type: "SystemAssigned"
       patches:
@@ -54,6 +57,10 @@ spec:
                 large: Standard_DS3_v2
         - fromFieldPath: "spec.parameters.nodes.count"
           toFieldPath: "spec.forProvider.defaultNodePool[0].nodeCount"
+        - fromFieldPath: "spec.parameters.nodes.count"
+          toFieldPath: "spec.forProvider.defaultNodePool[0].minCount"
+        - fromFieldPath: "spec.parameters.nodes.count"
+          toFieldPath: "spec.forProvider.defaultNodePool[0].maxCount"
         - fromFieldPath: spec.writeConnectionSecretToRef.namespace
           toFieldPath: spec.writeConnectionSecretToRef.namespace
         - fromFieldPath: spec.writeConnectionSecretToRef.name
@@ -62,25 +69,4 @@ spec:
             - type: string
               string:
                 fmt: "%s-akscluster"
-    # Creating Helm Provider Config for the cluster, using the cluster's connection kubeconfig secret.
-    - base:
-        apiVersion: helm.upbound.io/v1beta1
-        kind: ProviderConfig
-        spec:
-          credentials:
-            source: Secret
-            secretRef:
-              key: kubeconfig
-      patches:
-        - fromFieldPath: spec.id
-          toFieldPath: metadata.name
-        - fromFieldPath: spec.writeConnectionSecretToRef.namespace
-          toFieldPath: spec.credentials.secretRef.namespace
-        - fromFieldPath: spec.writeConnectionSecretToRef.name
-          toFieldPath: spec.credentials.secretRef.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-helm"
-      readinessChecks:
-        - type: None
+

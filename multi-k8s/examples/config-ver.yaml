@@ -1,0 +1,13 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: nate-organization-multi-k8s
+spec:
+  ignoreCrossplaneConstraints: false
+  package: xpkg.upbound.io/nate-organization/multi-k8s:v0.0.2
+  packagePullPolicy: Always
+  revisionActivationPolicy: Automatic
+  revisionHistoryLimit: 1
+  skipDependencyResolution: false
+  packagePullSecrets:
+    - name: 'myorg-package-pull-secret'

@@ -14,7 +14,7 @@ spec:
         kind: ResourceGroup
         spec:
           forProvider:
-            location: East US 2
+            location: eastus2 #patched
       patches:
       - fromFieldPath: spec.id
         toFieldPath: metadata.name
@@ -39,7 +39,7 @@ spec:
           forProvider:
             resourceGroupNameSelector:
               matchControllerRef: true
-            location: East US 2
+            location: eastus2 #patched
             addressSpace: ['192.168.0.0/16']
       patches:
       - fromFieldPath: spec.id

@@ -1,0 +1,12 @@
+apiVersion: platformref.upbound.io/v1alpha1
+kind: Cluster
+metadata:
+  name: nate-cluster-x-2
+spec:
+  id: nate-cluster-x-2 #be unique
+  cloud: gcp #gcp or azure
+  region: us-west1 #regions: #regions: [gcp - "us-west1" "us-west2" "us-east1" "us-east2"] [azure - "eastus" "eastus2" "westus2" "westus3"]
+  parameters:
+    nodes:
+      count: 1 #1-100
+      size: small #small/medium/large

@@ -57,7 +57,7 @@ spec:
           forProvider:
             location: us-west2
             version: "1.22.10-gke.600" #versions: "1.22.10-gke.600" "1.23.5-gke.1503" "1.23.7-gke.1400"
-            initialNodeCount: 1
+            initialNodeCount: 1 #patched
             clusterSelector:
               matchControllerRef: true
             nodeConfig:

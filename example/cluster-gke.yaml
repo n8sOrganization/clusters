@@ -5,7 +5,7 @@ metadata:
 spec:
   id: nate-cluster-x #be unique
   cloud: gcp #gcp or azure
-  region: us-west2 #regions: [gcp - "us-west1" "us-west2" "us-east1" "us-east2"] [azure - "East US 1" "East US 2" "West US 1" "West US 2"]
+  region: us-west2 #regions: [gcp - "us-west1" "us-west2" "us-east1" "us-east2"] [azure - "eastus" "eastus2" "westus2" "westus3"]
   parameters:
     nodes:
       count: 1 #1-100
