@@ -20,8 +20,6 @@ spec:
             defaultNodePool:
               - name: default
                 nodeCount: 1 #patched
-                maxCount: 1 #patched
-                minCount: 1 #patched
                 vmSize: Standard_B2s #patched
                 enableAutoScaling: false
             identity:
