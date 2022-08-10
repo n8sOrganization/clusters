@@ -8,7 +8,7 @@ on:
 
 jobs:
   configuration:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
           ref: main
       - name: Update manifest
         run: |
-          sed -i -e "s|package: xpkg.upbound.io/nate-organization/clusters:.*|package: xpkg.upbound.io/nate-organization/clusters:${{ steps.tagger.outputs.VERSION_TAG }}|g" ./cluster/configuration.yaml
+          sed -i -e "s|xpkg.upbound.io/nate-organization/multi-k8s.*|xpkg.upbound.io/nate-organization/multi-k8s:${{ steps.tagger.outputs.VERSION_TAG }}|g" ./cluster/configuration.yaml
       - name: Commit changes
         uses: EndBug/add-and-commit@v9.0.1
         with:
