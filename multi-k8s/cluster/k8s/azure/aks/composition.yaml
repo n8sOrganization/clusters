@@ -55,10 +55,6 @@ spec:
                 large: Standard_DS3_v2
         - fromFieldPath: "spec.parameters.nodes.count"
           toFieldPath: "spec.forProvider.defaultNodePool[0].nodeCount"
-        - fromFieldPath: "spec.parameters.nodes.count"
-          toFieldPath: "spec.forProvider.defaultNodePool[0].minCount"
-        - fromFieldPath: "spec.parameters.nodes.count"
-          toFieldPath: "spec.forProvider.defaultNodePool[0].maxCount"
         - fromFieldPath: spec.writeConnectionSecretToRef.namespace
           toFieldPath: spec.writeConnectionSecretToRef.namespace
         - fromFieldPath: spec.writeConnectionSecretToRef.name
