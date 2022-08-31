@@ -15,7 +15,7 @@ spec:
         spec:
           forProvider:
             privateClusterPublicFqdnEnabled: true
-            location: "eastus2" #patched
+            location: "eastus2"
             kubernetesVersion: "1.22.6" #version: "1.23.8" | "1.22.6"
             defaultNodePool:
               - name: default
@@ -39,8 +39,6 @@ spec:
                 fmt: "%s-aks"
         - fromFieldPath: spec.id
           toFieldPath: spec.forProvider.resourceGroupNameSelector.matchLabels[azure.platformref.upbound.io/app]
-        - fromFieldPath: spec.region
-          toFieldPath: spec.forProvider.location
         - fromFieldPath: spec.id
           toFieldPath: spec.forProvider.defaultNodePool[0].vnetSubnetIDSelector.matchLabels[azure.platformref.upbound.io/app]
         - fromFieldPath: spec.id

@@ -15,7 +15,7 @@ spec:
         spec:
           forProvider:
             removeDefaultNodePool: true
-            minMasterVersion: "1.22.10-gke.600" #versions: "1.22.10-gke.600" "1.23.5-gke.1503" "1.23.7-gke.1400"
+            minMasterVersion: "1.22.11-gke.400" #versions: "1.22.11-gke.400" "1.23.7-gke.1400"
             releaseChannel:
               - channel: UNSPECIFIED
             location: us-west2
@@ -33,9 +33,7 @@ spec:
           transforms:
             - type: string
               string:
-                fmt: "%s-gkecluster"
-        - fromFieldPath: spec.region
-          toFieldPath: spec.forProvider.location  
+                fmt: "%s-gkecluster" 
         - fromFieldPath: spec.parameters.nodes.count
           toFieldPath: spec.forProvider.initialNodeCount
         - fromFieldPath: "spec.id"
