@@ -16,7 +16,7 @@ spec:
           forProvider:
             privateClusterPublicFqdnEnabled: true
             location: "eastus2" #patched
-            kubernetesVersion: "1.21.9" #version: "1.21.9" | "1.22.6"
+            kubernetesVersion: "1.22.6" #version: "1.23.8" | "1.22.6"
             defaultNodePool:
               - name: default
                 nodeCount: 1 #patched
