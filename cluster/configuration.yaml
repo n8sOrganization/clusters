@@ -4,7 +4,7 @@ metadata:
   name: nate-organization-multi-k8s
 spec:
   ignoreCrossplaneConstraints: false
-  package: xpkg.upbound.io/nate-organization/multi-k8s:v0.0.2
+  package: xpkg.upbound.io/nate-organization/multi-k8s:v0.0.3
   packagePullPolicy: Always
   revisionActivationPolicy: Automatic
   revisionHistoryLimit: 1
