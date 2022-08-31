@@ -39,5 +39,4 @@ spec:
       patches:
         - fromFieldPath: spec.id
           toFieldPath: metadata.labels[networks.gcp.platformref.upbound.io/network-id]
-        - fromFieldPath: spec.region
-          toFieldPath: spec.forProvider.region
+

@@ -14,7 +14,7 @@ spec:
         kind: ResourceGroup
         spec:
           forProvider:
-            location: eastus2 #patched
+            location: eastus2
       patches:
       - fromFieldPath: spec.id
         toFieldPath: metadata.name
@@ -28,8 +28,6 @@ spec:
           - type: string
             string:
               fmt: "%s-rg"
-      - fromFieldPath: spec.region
-        toFieldPath: spec.forProvider.location
       - fromFieldPath: spec.id
         toFieldPath: metadata.labels[azure.platformref.upbound.io/app]
     - base:
@@ -39,13 +37,11 @@ spec:
           forProvider:
             resourceGroupNameSelector:
               matchControllerRef: true
-            location: eastus2 #patched
+            location: eastus2
             addressSpace: ['192.168.0.0/16']
       patches:
       - fromFieldPath: spec.id
         toFieldPath: metadata.labels[app]
-      - fromFieldPath: spec.region
-        toFieldPath: spec.forProvider.location
       - fromFieldPath: spec.id
         toFieldPath: metadata.name
         transforms:
